@@ -1,0 +1,29 @@
+import unittest
+from hittable import HitRecord
+from Vec3 import Vec3
+from ray import Ray
+
+class hittabletest(unittest.TestCase):
+    def test_HitRecord_init_point(self):
+        new=HitRecord(Vec3(2,2,2), Vec3(10,10,10), 5, True)
+        self.assertEqual(new.point.val, [2,2,2])
+
+    def test_HitRecord_init_normal(self):
+        new=HitRecord(Vec3(2,2,2), Vec3(10,10,10), 5, True)
+        self.assertEqual(new.normal.val, [10,10,10])
+
+    def test_HitRecord_init_t(self):
+        new=HitRecord(Vec3(2,2,2), Vec3(10,10,10), 5, True)
+        self.assertEqual(new.t, 5)
+
+    def test_HitRecord_init_frontface(self):
+        new=HitRecord(Vec3(2,2,2), Vec3(10,10,10), 5, True)
+        self.assertEqual(new.front_face, True)
+
+    def test_set_face_normal(self):
+        new=HitRecord(Vec3(2,2,2), Vec3(10,10,10), 5, True)
+        newr=Ray((1,0,10),(1,1,3))
+        self.assertEqual(new.set_face_normal(newr, Vec3(1,2,3)), [-1,-2,-3])
+
+if __name__ == '__main__':
+    unittest.main()
