@@ -12,3 +12,4 @@ class Camera:
         horizontal = Vec3(viewport_width, 0, 0)
         vertical = Vec3(0, viewport_height, 0)
         lower_left_corner = origin - horizontal/2 - vertical/2 - Vec3(0, 0, focal_length)
+        return

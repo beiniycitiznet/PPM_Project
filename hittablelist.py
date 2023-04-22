@@ -1,11 +1,12 @@
-import ray
-import Vec3
 from hittable import Hittable, HitRecord
+from sphere import Sphere
+from Vec3 import Vec3
+from ray import Ray
 
 
 class HittableList(Hittable):
-    def __init__(self):
-        self.objects = []
+    def __init__(self, objects):
+        self.objects = objects
 
     def add(self, new):
         self.objects.append(new)
@@ -19,18 +20,22 @@ class HittableList(Hittable):
         self.objects=[]
         return self.objects
 
-    # def hit(self, r, t_min, t_max, rec, point, normal, t, front_face):
-    #     temp_rec = HitRecord(point, normal, t, front_face)
-    #     hit_anything = False
-    #     closest_so_far = t_max
+    def hit(self, r, t_min, t_max, rec):
+        hit_anything = False
+        closest_so_far = t_max
 
-    #     for obj in self.objects:
-    #         if obj.hit(r, t_min, closest_so_far, temp_rec):
-    #             hit_anything = True
-    #             closest_so_far = temp_rec.t
-    #             rec.t = temp_rec.t
-    #             rec.p = temp_rec.p
-    #             rec.normal = temp_rec.normal
-    #             rec.material = temp_rec.material
+        for obj in self.objects:
+            if obj.hitted(r, t_min, closest_so_far, rec):
+                hit_anything = True
+                closest_so_far = rec.t
+        return hit_anything
 
-    #     return hit_anything
+
+# new1=Sphere(Vec3(0,0,0), 1)
+# new2=Sphere(Vec3(3,3,3),2)
+# l=HittableList([new1,new2])
+# r=Ray([0,0,0], [3,3,3])
+# h=HitRecord(Vec3(2,2,2), Vec3(10,10,10), 5, True)
+# print(l.hit(r,5,1,h))
+
+    
