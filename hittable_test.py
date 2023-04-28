@@ -1,6 +1,6 @@
 import unittest
 from hittable import HitRecord
-from Vec3 import Vec3
+from vec3 import Vec3
 from ray import Ray
 
 class hittabletest(unittest.TestCase):

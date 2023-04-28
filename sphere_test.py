@@ -1,6 +1,6 @@
 import unittest
 from sphere import Sphere
-from Vec3 import Vec3
+from vec3 import Vec3
 from ray import Ray
 from hittable import HitRecord
 

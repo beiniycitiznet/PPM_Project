@@ -1,7 +1,4 @@
-from hittable import Hittable, HitRecord
-from sphere import Sphere
-from Vec3 import Vec3
-from ray import Ray
+from hittable import Hittable
 
 
 class HittableList(Hittable):
@@ -25,10 +22,11 @@ class HittableList(Hittable):
         closest_so_far = t_max
 
         for obj in self.objects:
-            if obj.hitted(r, t_min, closest_so_far, rec):
+            h, rec=obj.hitted(r, t_min, closest_so_far, rec)
+            if h:
                 hit_anything = True
                 closest_so_far = rec.t
-        return hit_anything
+        return hit_anything, rec
 
 
 # new1=Sphere(Vec3(0,0,0), 1)

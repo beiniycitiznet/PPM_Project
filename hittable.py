@@ -1,13 +1,12 @@
 from abc import ABC
-from Vec3 import Vec3
-from ray import Ray
+from vec3 import Vec3
 
 class Hittable(ABC):
-    def hit(self, r, t_min, t_max):
+    def hit(self, r, t_min, t_max, rec):
         pass
 
 class HitRecord:
-    def __init__(self, point, normal, t, front_face):
+    def __init__(self, point=Vec3(0,0,0), normal=Vec3(0,0,0), t=None, front_face=True):
         self.point = point
         self.normal = normal
         self.t = t
