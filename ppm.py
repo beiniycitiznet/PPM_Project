@@ -23,21 +23,21 @@ class Ppmimage:
         self.board[y][x]=color 
         return self.board
         
-    def writeString(self):
-        res='P3 \n'+str(self.width)+' '+str(self.height)+'\n255 \n'
-        for h in self.board:
-            for w in h:
-                for c in w:
-                    if c<0 or c>255:
-                        print('Please enter the color again!')
-                        return
-                    res=res+str(c)+' '
-            res+='\n'
-        return res
+    # def writeString(self):
+    #     res='P3 \n'+str(self.width)+' '+str(self.height)+'\n255 \n'
+    #     for h in self.board:
+    #         for w in h:
+    #             for c in w:
+    #                 if c<0 or c>255:
+    #                     print('Please enter the color again!')
+    #                     return
+    #                 res=res+str(c)+' '
+    #         res+='\n'
+    #     return res
 
-    def writeFile(self, filename):
-        words=self.writeString()
-        with open(filename, 'w') as file:
-            file.write(words)
+    # def writeFile(self, filename):
+    #     words=self.writeString()
+    #     with open(filename, 'w') as file:
+    #         file.write(words)
 
 

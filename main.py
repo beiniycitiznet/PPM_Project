@@ -21,9 +21,9 @@ def write_color(pixel_color, samples_per_pixel):
     #         return 'Please enter positive pixcel color!'
     r, g, b = pixel_color.val
     scale = 1.0 / samples_per_pixel
-    r *= scale
-    g *= scale
-    b *= scale
+    r *= scale*256
+    g *= scale*256
+    b *= scale*256
     return Vec3(r,g,b)
 
 def ray_color(r, world, depth):
@@ -58,15 +58,16 @@ def writeFile(filename):
         for j in range(image_height-1, -1, -1):
             for i in range(image_width):
                 pixel_color = Vec3(0, 0, 0)
-            for s in range(samples_per_pixel):
-                u = (i + rtweekend.random_double(0,1)) / (image_width-1)
-                v = (j + rtweekend.random_double(0,1)) / (image_height-1)
-                r = cam.get_ray(u, v)
-                pixel_color += ray_color(r, world, max_depth)
+                for s in range(samples_per_pixel):
+                    u = (i + rtweekend.random_double(0,1)) / (image_width-1)
+                    v = (j + rtweekend.random_double(0,1)) / (image_height-1)
+                    r = cam.get_ray(u, v)
+                    pixel_color += ray_color(r, world, max_depth)
                 curr=write_color(pixel_color,samples_per_pixel).val
                 for c in curr:
                     file.write(str(c)+' ')
                 file.write('\n')
+            print(j)
 
 writeFile('test.ppm')
 
