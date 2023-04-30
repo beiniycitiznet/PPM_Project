@@ -81,12 +81,25 @@ class Vec3:
 def random_range(min, max):
     return Vec3(uniform(min, max), uniform(min, max), uniform(min, max))
 
+def random_unit_vector(self):
+    return self.unitVec(random_in_unit_sphere())
+
 def random_in_unit_sphere():
     while True:
         p = random_range(-1,1)
         if p.length_squared() >= 1: 
             continue
         return p
+    
+def random_in_hemisphere(normal):
+    in_unit_sphere = random_in_unit_sphere()
+    if normal.dot(in_unit_sphere) > 0.0:
+        return in_unit_sphere
+    else:
+        return -in_unit_sphere
+
+    
+
         
     # def ray_color(self, r, world):
     #     rec = HitRecord()

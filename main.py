@@ -7,6 +7,7 @@ from sphere import Sphere
 from vec3 import Vec3
 import vec3
 import json
+import math
 from random import random
 import rtweekend
 
@@ -21,9 +22,13 @@ def write_color(pixel_color, samples_per_pixel):
     #         return 'Please enter positive pixcel color!'
     r, g, b = pixel_color.val
     scale = 1.0 / samples_per_pixel
-    r *= scale*256
-    g *= scale*256
-    b *= scale*256
+    r = math.sqrt(scale * r)*256
+    g = math.sqrt(scale * g)*256
+    b = math.sqrt(scale * b)*256
+    
+    # r *= scale*256
+    # g *= scale*256
+    # b *= scale*256
     return Vec3(r,g,b)
 
 def ray_color(r, world, depth):
@@ -31,9 +36,9 @@ def ray_color(r, world, depth):
 
     if depth <= 0:
         return Vec3(0, 0, 0)
-    h, rec=world.hit(r, 0, float("inf"), rec)
+    h, rec=world.hit(r, 0.001, float("inf"), rec)
     if h:
-        target = vec3.random_in_unit_sphere()+rec.point + rec.normal 
+        target = rec.point + vec3.random_in_hemisphere(rec.normal)
         return ray_color(Ray(rec.point.val, (target - rec.point).val), world, depth-1)*0.5
 
     unit_direction = Vec3.unitVec(r.direction())
