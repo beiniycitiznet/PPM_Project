@@ -6,10 +6,11 @@ class Hittable(ABC):
         pass
 
 class HitRecord:
-    def __init__(self, point=Vec3(0,0,0), normal=Vec3(0,0,0), t=None, front_face=True):
+    def __init__(self, point=Vec3(0,0,0), normal=Vec3(0,0,0), t=None, mat_ptr=None, front_face=True):
         self.point = point
         self.normal = normal
         self.t = t
+        self.mat_ptr = mat_ptr
         self.front_face = front_face
         
     def set_face_normal(self, ray, outward_normal):

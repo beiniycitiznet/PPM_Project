@@ -1,8 +1,9 @@
 import math
 from random import random, uniform
 
+
 class Vec3:
-    def __init__ (self,x,y,z):
+    def __init__ (self,x=0,y=0,z=0):
         self.x=x
         self.y=y
         self.z=z
@@ -78,18 +79,32 @@ class Vec3:
         b = int(255.999 * pixel_color[2])
         return Vec3(r,g,b)
     
+    def near_zero(self):
+        s = 1e-8
+        return (abs(self.x) < s) and (abs(self.y) < s) and (abs(self.z) < s)
+    
+def random_unit_vector():
+    return random_in_unit_sphere().unitVec()
+    
 def random_range(min, max):
     return Vec3(uniform(min, max), uniform(min, max), uniform(min, max))
 
-def random_unit_vector(self):
-    return self.unitVec(random_in_unit_sphere())
+
+
+# def random_in_unit_sphere():
+#     while True:
+#         p = random_range(-1,1)
+#         if p.length_squared() >= 1: 
+#             continue
+#         return p
 
 def random_in_unit_sphere():
     while True:
         p = random_range(-1,1)
-        if p.length_squared() >= 1: 
+        if p.length_squared() >= 1:
             continue
         return p
+
     
 def random_in_hemisphere(normal):
     in_unit_sphere = random_in_unit_sphere()
@@ -97,53 +112,11 @@ def random_in_hemisphere(normal):
         return in_unit_sphere
     else:
         return -in_unit_sphere
-
     
 
-        
-    # def ray_color(self, r, world):
-    #     rec = HitRecord()
-    #     if world.hit(r, 0, float("inf"), rec):
-    #         target = rec.p + rec.normal + self.random_in_unit_sphere()
-    #         return self.ray_color(Ray(rec.p, target - rec.p), world)*0.5
-    #     else:
-    #         unit_direction = self.unitVec(r.direction())
-    #         t = (unit_direction.y() + 1.0)*0.5
-    #         return main.writeColor(1.0, 1.0, 1.0)*(1.0 - t) + main.writeColor(0.5, 0.7, 1.0)*t
 
-
-    
-
-    # def ray_color(self, r, world, depth):
-    #     if depth <= 0:
-    #         return self.writeColor(0, 0, 0)
-
-    #     rec = HitRecord()
-    #     if world.hit(r, 0, float('inf'), rec):
-    #         target = rec.p + rec.normal + self.random_in_unit_sphere()
-    #         return self.ray_color(Ray(rec.p, target - rec.p), world, depth - 1)*0.5 
-
-    #     unit_direction = self.unitVec(r.direction())
-    #     t = (unit_direction.y() + 1.0)*0.5
-    #     return self.writeColor(1.0, 1.0, 1.0)*(1.0 - t) + self.writeColor(0.5, 0.7, 1.0)*t
-
-    # def writeFile(self, filename, width, height):
-    #     if width<=0 or height<=0:
-    #         return 'Please enter positive width and positive height'
-    #     board=[[[0,0,0] for w in range(width)] for h in range(height)]
-    #     res='P3 \n'+str(width)+' '+str(height)+'\n255 \n'
-    #     for h in range(height-1,-1,-1):
-    #         for w in range(width):
-    #             scale=[h/(width), w/height,0.25]
-    #             color=self.writeColor(scale)
-    #             board[h][w]=color
-    #     for h in board:
-    #         for w in h:
-    #             for c in w:
-    #                 res=res+str(c)+' '
-    #         res+='\n'
-    #     with open(filename, 'w') as file:
-    #         file.write(res)
+def reflect(v, n):
+    return v - n * 2 * v.dot(n) 
 
     
 # new1=Vec3(-5,7,9)

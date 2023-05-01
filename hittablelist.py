@@ -23,6 +23,7 @@ class HittableList(Hittable):
 
         for obj in self.objects:
             h, rec=obj.hitted(r, t_min, closest_so_far, rec)
+
             if h:
                 hit_anything = True
                 closest_so_far = rec.t
