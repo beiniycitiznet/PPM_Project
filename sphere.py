@@ -22,11 +22,10 @@ class Sphere(Hittable):
             return (-b - math.sqrt(discriminant)) / (2 * a)
 
     def hitted(self, r, t_min, t_max, rec):
-        offset = r.origin() - self.center
+        offset = r.origins() - self.center
         
-
-        a = r.direction().length_squared()
-        b = 2 * Vec3.dot(offset, r.direction())
+        a = r.directions().length_squared()
+        b = 2 * Vec3.dot(offset, r.directions())
         c = offset.length_squared() - self.radius ** 2
 
         discriminant = b ** 2 - 4 * a * c
@@ -61,7 +60,7 @@ class Sphere(Hittable):
         if t > 0:
             face_nromal = (r.at(t) - Vec3(0, 0, -1)).unitVec()
             return (Vec3(face_nromal.x + 1, face_nromal.y + 1, face_nromal.z + 1)*0.5).val
-        unit_direction = r.direction().unitVec()
+        unit_direction = r.directions().unitVec()
         t = 0.5 * (unit_direction.y + 1)
         return  (Vec3(1, 1, 1)*(1 - t) + Vec3(0.5, 0.7, 1)*t).val
 

@@ -11,6 +11,9 @@ class Vec3:
             self.val=[0,0,0]
         else:
             self.val=[float(x),float(y),float(z)]
+
+    def __repr__(self) -> str:
+        return f'{self.val}'
         
     def __add__(self, v3):
         if v3==None:
@@ -89,14 +92,12 @@ def random_unit_vector():
 def random_range(min, max):
     return Vec3(uniform(min, max), uniform(min, max), uniform(min, max))
 
+def refract(uv, n, etai_over_etat):
+    cos_theta = min(n.dot(-uv), 1.0)
+    r_out_perp = (uv + n*cos_theta)*etai_over_etat 
+    r_out_parallel = n*(-math.sqrt(abs(1.0 - r_out_perp.length_squared())))
+    return r_out_perp + r_out_parallel
 
-
-# def random_in_unit_sphere():
-#     while True:
-#         p = random_range(-1,1)
-#         if p.length_squared() >= 1: 
-#             continue
-#         return p
 
 def random_in_unit_sphere():
     while True:

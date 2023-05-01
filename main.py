@@ -10,12 +10,18 @@ import json
 import math
 from random import random
 import rtweekend
-from material import Lambertian, Metal
-
+from material import Lambertian, Metal, Dielectric
 
 def load_json(filename):
     data = json.loads(filename.read())
-    return data
+    image_width=data['width']
+    image_height=data['height']
+
+    world = HittableList([])
+    for object in data['objects']:
+        world.add(object)
+
+    return image_width,image_height,world
 
 def write_color(pixel_color, samples_per_pixel):
     r, g, b = pixel_color.val
@@ -36,34 +42,37 @@ def ray_color(r, world, depth):
     if h:
         scattered = Ray()
         attenuation = Vec3()
+        # print("before", r, scattered)
         res, scattered, attenuation=rec.mat_ptr.scatter(r, rec, attenuation, scattered)
-        # print('r:',r,'scattered',scattered, 'res', res)
+        # print('after',r, scattered)
+
         if res:
             return attenuation.multiply(ray_color(scattered, world, depth-1))
         return Vec3(0, 0, 0)
 
-    unit_direction = Vec3.unitVec(r.direction())
+    unit_direction = Vec3.unitVec(r.directions())
     t = (unit_direction.y + 1.0)*0.5
     return Vec3(1.0, 1.0, 1.0)*(1.0 - t) + Vec3(0.5, 0.7, 1.0)*t
 
-def writeFile(filename):
-    aspect_ratio = 16.0 / 9.0
-    image_width = 400
-    image_height = int(image_width / aspect_ratio)
+def writeFile(filename, image_width, image_height, world):
+    # aspect_ratio = 16.0 / 9.0
+    # image_width = 400
+    # image_height = int(image_width / aspect_ratio)
     samples_per_pixel = 100
     max_depth = 50
     
-    world = HittableList([])
+    # world = HittableList([])
 
-    material_ground = Lambertian(Vec3(0.8, 0.8, 0.0))
-    material_center = Lambertian(Vec3(0.7, 0.3, 0.3))
-    material_left = Metal(Vec3(0.8, 0.8, 0.8), 0.3)
-    material_right = Metal(Vec3(0.8, 0.6, 0.2), 1.0)
+    # material_ground = Lambertian(Vec3(0.8, 0.8, 0.0))
+    # material_center = Lambertian(Vec3(0.1, 0.2, 0.5))
+    # material_left = Dielectric(1.5)
+    # material_right = Metal(Vec3(0.8, 0.6, 0.2), 0.0)
 
-    world.add(Sphere(Vec3(0.0, -100.5, -1.0), 100.0, material_ground))
-    world.add(Sphere(Vec3(0.0, 0.0, -1.0), 0.5, material_center))
-    world.add(Sphere(Vec3(-1.0, 0.0, -1.0), 0.5, material_left))
-    world.add(Sphere(Vec3(1.0, 0.0, -1.0), 0.5, material_right))
+    # world.add(Sphere(Vec3(0.0, -100.5, -1.0), 100.0, material_ground))
+    # world.add(Sphere(Vec3(0.0, 0.0, -1.0), 0.5, material_center))
+    # world.add(Sphere(Vec3(-1.0, 0.0, -1.0), 0.5, material_left))
+    # world.add(Sphere(Vec3(-1.0, 0.0, -1.0), -0.4, material_left))
+    # world.add(Sphere(Vec3(1.0, 0.0, -1.0), 0.5, material_right))
 
     cam = Camera()
 
@@ -87,34 +96,3 @@ writeFile('test.ppm')
 
 
 
-# def writeFile(filename):
-#     aspect_ratio = 16.0 / 9.0
-#     image_width = 400
-#     image_height = int(image_width / aspect_ratio)
-    
-
-#     viewport_height = 2.0
-#     viewport_width = aspect_ratio * viewport_height
-#     focal_length = 1.0
-
-#     ori = Vec3(0, 0, 0)
-#     horizontal = Vec3(viewport_width, 0, 0)
-#     vertical = Vec3(0, viewport_height, 0)
-#     lower_left_corner = ori - horizontal/2 - vertical/2 - Vec3(0, 0, focal_length)
-
-#     news=Sphere(Vec3(1,6,5), 5)
-#     newt=Sphere(Vec3(2,9,4), 3)
-
-#     with open(filename, 'w') as file:
-#         file.write('P3 \n'+str(image_width)+' '+str(image_height)+'\n255 \n')
-#         for j in range(image_height-1, -1, -1):
-#             for i in range(image_width):
-#                 u = i / (image_width-1)
-#                 v = j / (image_height-1)
-#                 dst = (lower_left_corner + horizontal*u + vertical*v - ori)
-#                 r = Ray(ori.val, dst.val)
-#                 pixel_color = news.ray_color(r)
-#                 curr=writeColor(pixel_color).val
-#                 for c in curr:
-#                     file.write(str(c)+' ')
-#                 file.write('\n')

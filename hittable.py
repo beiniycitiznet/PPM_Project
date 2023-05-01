@@ -14,7 +14,7 @@ class HitRecord:
         self.front_face = front_face
         
     def set_face_normal(self, ray, outward_normal):
-        if ray.direction().dot(outward_normal) < 0:
+        if ray.directions().dot(outward_normal) < 0:
             self.normal = outward_normal 
         else:
             self.normal=-outward_normal
