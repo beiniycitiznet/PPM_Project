@@ -1,24 +1,28 @@
-# PPM Project (Ray Tracing)
+# Ray Tracing in Python
 
-This project contains several classes that can be used to implement 3D graphics and raytracing applications.
+This repository contains Python code for basic ray tracing.
 
-### Vec3 Class
-The Vec3 class is a mathematical vector class that represents a 3D vector. It provides various functionalities that can be used to perform mathematical operations on vectors, such as addition, subtraction, multiplication, division, and dot product. It also includes functions to calculate the length of a vector, its squared length, and its unit vector. Additionally, this class includes functions to write the color values of pixels in an image file and to save the image file in PPM format.
+### vec3.py
+This file contains the implementation of the Vec3 class, which represents a 3D vector. This class initialized with three float values that represent the x, y, and z coordinates of the vector. The class overloads several operators such as addition, subtraction, multiplication, division, and negation to enable vector arithmetic. The class also includes methods to compute the length, squared length, unit vector, dot product, cross product, and to generate a random vector. Additionally, the module includes utility functions to compute a random unit vector, a random vector within a given range, and to perform reflection and refraction calculations on vectors.
 
-### Ray Class
-The Ray class represents a 3D ray that can be used to simulate the path of light in a scene. It includes a constructor that takes a point and a direction vector as input and generates a ray object. It also provides a function to get a point on the ray at a given distance from its origin.
+### ray.py
+This file contains the implementation of the Ray class, which represents a ray in 3D space. This class includes a method for calculating the position of the ray at a given time.
 
-### Hittable Class
-The Hittable class is an abstract class that provides an interface for objects in a scene that can be hit by rays. It includes a function to check if a ray intersects with the object and another function to calculate the color of the object at the point of intersection.
+### hittable.py
+This file contains the implementation of the Hittable class, which represents an object that can be hit by a ray. This class includes a method for checking whether a given ray intersects with the object.
 
-### Sphere Class
-The Sphere class is a concrete implementation of the Hittable class that represents a 3D sphere. It includes a constructor that takes a center point and a radius as input and generates a sphere object. It also provides an implementation of the hit function that checks if a ray intersects with the sphere and calculates the color of the sphere at the point of intersection.
+### sphere.py
+This file contains the implementation of the Sphere class, which represents a sphere object. This class includes a method for checking whether a given ray intersects with the sphere.
 
-### Camera Class
-The Camera class represents a 3D camera that can be used to generate images of a scene. It includes a constructor that takes the position of the camera, the point it is looking at, the up direction, and the vertical field of view as input and generates a camera object. It also provides a function to generate a ray from the camera's position to a given pixel on the image plane.
+### camera.py
+This file contains the implementation of the Camera class, which represents a virtual camera that can be used to render a scene. This class includes a method for generating a ray that starts at the camera's position and passes through a given pixel on the screen.
 
-### Ppmimage Class
-To create a new Ppmimage object, you need to specify the width and height of the image. These values must be positive integers, otherwise an error message will be displayed. You can set the color of a pixel in the Ppmimage using the setPixel method. You can write the Ppmimage object to a file using the writeFile method. This method takes a filename as an argument and writes the image data to a file with the specified name. 
+### main.py
+This file contains the implementation of the main program, which uses the other classes to render a simple PPM file.
 
-### HittableList Class
-The HittableList class is a container for a list of objects that can be hit by a ray. It is commonly used in computer graphics applications to represent a scene or a set of objects that can be rendered.
+### material.py
+This file contains the implementations of three material types used in ray tracing simulations: Lambertian, Metal, and Dielectric. Each material type is defined as a class that inherits from an abstract Material class and implements a scatter method. 
+
+## How to run the program
+
+To run the program, simply run the main.py file in a Python environment. The program will generate a PPM file.
